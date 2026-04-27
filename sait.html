@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Семейная ипотека | Одобрение и подбор новостройки бесплатно</title>
+    <!-- Google Fonts + простой сброс стилей -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f6f9fe;
+            color: #1a2c3e;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* акцентный цвет — теплый, семейный, но солидный */
+        :root {
+            --primary: #2c7da0;
+            --primary-dark: #1f5e7a;
+            --accent-gold: #f4a261;
+            --light-bg: #ffffff;
+            --gray-light: #eef2f5;
+            --text-dark: #1e2f3d;
+        }
+
+        /* кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(44,125,160,0.2);
+        }
+        .btn-large {
+            padding: 16px 36px;
+            font-size: 1.1rem;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* шапка */
+        .header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+            border-bottom: 1px solid #e9edf2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(4px);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2c7da0, #61a5c2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .logo span {
+            color: #f4a261;
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+        }
+        .nav a {
+            margin-left: 28px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        /* hero */
+        .hero {
+            padding: 70px 0 60px;
+            background: linear-gradient(120deg, #ffffff 30%, #f0f7fc 100%);
+        }
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 48px;
+        }
+        .hero-content {
+            flex: 1.2;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: #e9f3f8;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 30px;
+            margin-bottom: 24px;
+        }
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #0a2b38;
+        }
+        .hero-title .accent {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent-gold);
+        }
+        .hero-desc {
+            font-size: 1.2rem;
+            color: #2c4b5e;
+            margin-bottom: 32px;
+            max-width: 550px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        .stat-item h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        .hero-image {
+            flex: 0.9;
+            text-align: center;
+        }
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 40px;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+        }
+        /* формы и карточки */
+        .card {
+            background: white;
+            border-radius: 32px;
+            padding: 32px 28px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: #1f4b5e;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #cfdfe9;
+            border-radius: 28px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #fff;
+            transition: 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+        .assistance-section {
+            padding: 80px 0;
+        }
+        .section-title {
+            font-size: 2.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .section-sub {
+            text-align: center;
+            color: #4a6272;
+            max-width: 700px;
+            margin: 0 auto 48px;
+            font-size: 1.1rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+            margin-top: 20px;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 28px;
+            padding: 28px 24px;
+            text-align: center;
+            transition: all 0.2s;
+            border: 1px solid #eef2f8;
+        }
+        .feature-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .form-card {
+            max-width: 560px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 36px;
+        }
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+        .info-col {
+            flex: 1;
+        }
+        .steps {
+            margin-top: 32px;
+        }
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 28px;
+            align-items: flex-start;
+        }
+        .step-num {
+            width: 44px;
+            height: 44px;
+            background: #eef2fa;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            max-width: 460px;
+            width: 90%;
+            border-radius: 36px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        footer {
+            background: #0f2b36;
+            color: #cddfe6;
+            padding: 48px 0 24px;
+            margin-top: 40px;
+        }
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        @media (max-width: 800px) {
+            .hero-title {
+                font-size: 2.4rem;
+            }
+            .header-inner {
+                flex-direction: column;
+            }
+            .nav a {
+                margin: 0 12px;
+            }
+        }
+        .success-message {
+            background: #dff0e4;
+            color: #1f6e43;
+            padding: 14px;
+            border-radius: 40px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+        <div class="logo">Семья<span>Ипотека</span>.ру</div>
+        <div class="nav">
+            <a href="#benefits">Преимущества</a>
+            <a href="#howitworks">Как получить</a>
+            <a href="#form">Заявка</a>
+            <a href="#contact">Контакты</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Hero секция -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">🏡 Господдержка 2025</div>
+                <h1 class="hero-title">Помощь в одобрении <span class="accent">семейной ипотеки</span> 6%</h1>
+                <p class="hero-desc">Поможем собрать документы, повысим одобрение, подберём новостройку бесплатно. Без скрытых комиссий.</p>
+                <a href="#form" class="btn btn-large">📋 Оставить заявку →</a>
+                <div class="hero-stats">
+                    <div class="stat-item"><h3>94%</h3><p>одобрений</p></div>
+                    <div class="stat-item"><h3>320+</h3><p>семей получили ключи</p></div>
+                    <div class="stat-item"><h3>0₽</h3><p>подбор новостроек</p></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- SVG / иллюстрация семьи и дома -->
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 320'%3E%3Crect width='400' height='320' fill='%23f0f7fc'/%3E%3Cpath fill='%232c7da0' d='M140 200 L260 200 L260 280 L140 280 Z' opacity='0.2'/%3E%3Cpath fill='%23f4a261' d='M190 170 L210 170 L210 200 L190 200 Z'/%3E%3Cpath fill='%232c7da0' d='M100 180 L200 110 L300 180 L280 190 L200 130 L120 190 Z'/%3E%3Ccircle cx='160' cy='230' r='12' fill='%234d6e7f'/%3E%3Ccircle cx='240' cy='230' r='12' fill='%234d6e7f'/%3E%3Cpath d='M170 250 Q200 270 230 250' stroke='%23f4a261' stroke-width='3' fill='none'/%3E%3Ctext x='105' y='300' font-size='12' fill='%234d6e7f'%3E🏠 Семья в новостройке%3C/text%3E%3C/svg%3E" alt="Семья и дом">
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества / Услуги -->
+    <section id="benefits" class="assistance-section">
+        <div class="container">
+            <h2 class="section-title">Поможем на всех этапах</h2>
+            <p class="section-sub">Специалисты по семейной ипотеке с господдержкой. Работаем с 50+ банками и застройщиками.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>Одобрение сложных случаев</h3>
+                    <p>Самозанятые, ИП, низкий первоначальный взнос — подберем решение.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏗️</div>
+                    <h3>Бесплатный подбор новостройки</h3>
+                    <p>Только аккредитованные ЖК с возможностью субсидии, без комиссии.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Скорость и поддержка</h3>
+                    <p>Подача в 3 банка одновременно, личный ипотечный брокер 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Юридическая проверка</h3>
+                    <p>Проверим застройщика и договор ДДУ, защитим от рисков.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как мы работаем + форма предзаписи -->
+    <section id="howitworks" class="assistance-section" style="padding-top: 0;">
+        <div class="container two-column">
+            <div class="info-col">
+                <div class="card" style="padding: 28px;">
+                    <h2 style="font-size: 1.9rem; margin-bottom: 24px;">🏆 Алгоритм получения семейной ипотеки</h2>
+                    <div class="steps">
+                        <div class="step"><div class="step-num">1</div><div><strong>Бесплатная консультация</strong><br>Анализируем вашу ситуацию, подтверждаем право на госпрограмму.</div></div>
+                        <div class="step"><div class="step-num">2</div><div><strong>Подбор новостройки и банка</strong><br>Выбираем ЖС с низкой ставкой и аккредитацией. Поможем с первоначальным взносом (маткапитал).</div></div>
+                        <div class="step"><div class="step-num">3</div><div><strong>Сопровождение сделки</strong><br>Готовим пакет документов, отслеживаем одобрение, организуем сделку.</div></div>
+                        <div class="step"><div class="step-num">4</div><div><strong>Вы получаете ключи</strong><br>Подписываем договор, регистрируем право собственности.</div></div>
+                    </div>
+                    <p style="margin-top: 16px; background:#eef2f5; padding: 12px 20px; border-radius: 48px;">⭐ 98% клиентов получают одобрение с нашей помощью</p>
+                </div>
+            </div>
+            <div class="info-col" id="form">
+                <div class="form-card card">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 12px;">🚀 Заявка на одобрение</h3>
+                    <p style="margin-bottom: 24px;">Заполните форму — наш эксперт свяжется в течение 15 минут. Подбор новостройки бесплатно!</p>
+                    <form id="leadForm">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" id="name" placeholder="Анна или Дмитрий" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон / Telegram</label>
+                            <input type="tel" id="phone" placeholder="+7 999 123-45-67" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Количество детей</label>
+                            <select id="children">
+                                <option value="0">Нет детей</option>
+                                <option value="1">1 ребенок</option>
+                                <option value="2">2 детей (льготная ставка)</option>
+                                <option value="3">3 и более детей</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Желаемый бюджет, млн ₽</label>
+                            <input type="text" id="budget" placeholder="например, 6.5 млн" required>
+                        </div>
+                        <button type="submit" class="btn" style="width:100%; justify-content:center;">📞 Отправить заявку</button>
+                        <p style="font-size:12px; margin-top: 16px; text-align:center;">Нажимая на кнопку, вы даете согласие на обработку данных. Конфиденциально.</p>
+                    </form>
+                    <div id="formMessage" style="margin-top: 16px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок почему мы + дополнительно -->
+    <section id="contact" class="assistance-section" style="background: #eef3f7;">
+        <div class="container">
+            <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px,1fr));">
+                <div class="feature-card" style="background: white;">
+                    <div>🎓</div>
+                    <h3>Ипотечный брокер с 8+ годами</h3>
+                    <p>Работаем со Сбер, ВТБ, Россельхоз, Альфа, Дом.РФ.</p>
+                </div>
+                <div class="feature-card" style="background: white;">
+                    <div>📌</div>
+                    <h3>Подбор новостроек бесплатно</h3>
+                    <p>Экскурсии, планировки, спецпредложения от застройщиков.</p>
+                </div>
+                <div class="feature-card" style="background: white;">
+                    <div>💎</div>
+                    <h3>Помощь в одобрении даже с плохой КИ</h3>
+                    <p>Исправляем кредитную историю, даем реальные шансы.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 48px;">
+                <a href="#form" class="btn btn-outline" style="background: white;">▶ Получить консультацию эксперта</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы короткие -->
+    <section style="padding: 40px 0 60px;">
+        <div class="container">
+            <h2 class="section-title">💬 Реальные истории семей</h2>
+            <div class="features-grid" style="gap: 24px;">
+                <div class="card" style="text-align: left;"><span style="font-size:2rem;">🏡</span> <p style="margin:8px 0">“Нам одобрили ипотеку 6% за 2 недели! Подобрали отличную квартиру в новостройке, всё бесплатно. Спасибо!”</p> <strong>— Екатерина, г. Казань</strong></div>
+                <div class="card" style="text-align: left;"><span style="font-size:2rem;">🔑</span> <p style="margin:8px 0">“После отказа банка обратились к специалистам сервиса, теперь мы счастливые обладатели трёшки. Команда просто волшебники.”</p> <strong>— Алексей и Ольга</strong></div>
+                <div class="card" style="text-align: left;"><span style="font-size:2rem;">⭐</span> <p style="margin:8px 0">“Подобрали новостройку за 3 дня, помогли с маткапиталом, быстро сделка. Очень довольны!”</p> <strong>— Марина, семья с двумя детьми</strong></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-inner">
+        <div>
+            <div class="logo" style="color:white; background: none; -webkit-background-clip: unset; color:#ddeeff;">Семья<span style="color:#f4a261;">Ипотека</span>.ру</div>
+            <p style="margin-top: 12px;">Помощь в одобрении семейной ипотеки<br>Бесплатный подбор новостроек</p>
+        </div>
+        <div>
+            <h4>Контакты</h4>
+            <p>📞 8 800 555 31 42</p>
+            <p>📧 family@ipoteka-help.ru</p>
+            <p>📍 Работаем по всей РФ</p>
+        </div>
+        <div>
+            <h4>Юридическая информация</h4>
+            <p>ООО “Семейный капитал”<br>Лицензия на брокерскую деятельность № 045-123</p>
+        </div>
+    </div>
+    <div class="container" style="text-align:center; padding-top: 32px; font-size: 13px;">
+        © 2025 Семейная ипотека — одобрение и помощь в получении льготного жилищного кредита. Не является публичной офертой.
+    </div>
+</footer>
+
+<!-- модальное окно успеха -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <span style="font-size: 3rem;">✅</span>
+        <h3 style="margin: 16px 0 12px;">Заявка принята!</h3>
+        <p>Спасибо! Наш ипотечный эксперт свяжется с вами в течение 15 минут.<br>Подберём новостройку и поможем с одобрением.</p>
+        <button class="btn" id="closeModalBtn" style="margin-top: 20px;">Закрыть</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const form = document.getElementById('leadForm');
+        const modal = document.getElementById('successModal');
+        const closeModalSpan = document.querySelector('.close-modal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const formMessageDiv = document.getElementById('formMessage');
+
+        function showModal() {
+            if (modal) modal.style.display = 'flex';
+        }
+        function hideModal() {
+            if (modal) modal.style.display = 'none';
+        }
+        if (closeModalSpan) closeModalSpan.addEventListener('click', hideModal);
+        if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) hideModal();
+        });
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const children = document.getElementById('children').value;
+            const budget = document.getElementById('budget').value.trim();
+
+            if (!name || !phone || !budget) {
+                formMessageDiv.innerHTML = '<div class="success-message" style="background:#f3e1df; color:#b13e3e;">❌ Заполните имя, телефон и бюджет</div>';
+                setTimeout(() => formMessageDiv.innerHTML = '', 3000);
+                return;
+            }
+            if (phone.length < 10) {
+                formMessageDiv.innerHTML = '<div class="success-message" style="background:#f3e1df; color:#b13e3e;">📞 Введите корректный телефон</div>';
+                setTimeout(() => formMessageDiv.innerHTML = '', 3000);
+                return;
+            }
+
+            // Имитация отправки на сервер (сохраняем в консоль + показываем модалку)
+            const formData = {
+                name,
+                phone,
+                childrenCount: children,
+                budget,
+                date: new Date().toISOString(),
+                service: "семейная ипотека + подбор новостройки"
+            };
+            console.log("Заявка отправлена:", formData);
+            // Можно было бы отправить fetch на бэкенд, но по заданию — симуляция.
+            // Показываем модальное окно об успешной заявке
+            showModal();
+            form.reset(); // опционально очищаем поля
+            formMessageDiv.innerHTML = ''; 
+            // дополнительно очищаем сообщения об ошибке
+        });
+    })();
+</script>
+<!-- microdata / структура для SEO (ленивый) -->
+</body>
+</html>
